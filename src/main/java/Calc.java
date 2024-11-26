@@ -1,31 +1,53 @@
+import java.util.Stack;
+
 public class Calc {
     public static int run(String expr) {
-        String[] tokens = expr.split(" ");
-        // 초기값
-        int result = 0;
+        Stack<Integer> stack = new Stack<>();
         int currentNum = 0;
-        String operation = "+";
+        char operation = '+';
+        expr = expr.replaceAll(" ", "");
 
-        for (String token : tokens) {
-            if (token.equals("+") || token.equals("-") || token.equals("*") || token.equals("/")) {
-                operation = token;
-            } else {
-                currentNum = Integer.parseInt(token);
+        for (int i = 0; i < expr.length(); i++) {
+            char ch = expr.charAt(i);
+
+            if (Character.isDigit(ch)) {
+                currentNum = currentNum * 10 + (ch - '0');
+            }
+
+            if (ch == '(') {
+                int j = i, count = 0;
+                while (i < expr.length()) {
+                    if (expr.charAt(i) == '(') count++;
+                    if (expr.charAt(i) == ')') count--;
+                    if (count == 0) break;
+                    i++;
+                }
+                currentNum = run(expr.substring(j + 1, i));
+            }
+
+            if (i == expr.length() - 1 || "+-*/".indexOf(ch) != -1) {
                 switch (operation) {
-                    case "+":
-                        result += currentNum;
+                    case '+':
+                        stack.push(currentNum);
                         break;
-                    case "-":
-                        result -= currentNum;
+                    case '-':
+                        stack.push(-currentNum);
                         break;
-                    case "*":
-                        result *= currentNum; // 초기값 0, 수정필요
+                    case '*':
+                        stack.push(stack.pop() * currentNum);
                         break;
-                    case "/":
-                        result /= currentNum; // 초기값 0, 수정필요
+                    case '/':
+                        stack.push(stack.pop() / currentNum);
                         break;
                 }
+                operation = ch;
+                currentNum = 0;
             }
+        }
+
+        int result = 0;
+        for (int num : stack) {
+            result += num;
         }
         return result;
     }

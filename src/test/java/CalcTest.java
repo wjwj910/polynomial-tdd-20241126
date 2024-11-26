@@ -22,4 +22,11 @@ public class CalcTest {
 
         assertThat(rs).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("(3 + 5) * 5 + -10")
+    public void t3() {
+        int rs = Calc.run("((3 + 5) * 5 + -10)");
+        assertThat(rs).isEqualTo(30);
+    }
 }
