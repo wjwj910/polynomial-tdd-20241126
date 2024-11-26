@@ -14,4 +14,12 @@ public class CalcTest {
 
         assertThat(rs).isEqualTo(8);
     }
+
+    @Test
+    @DisplayName("1 * 3 / 3 + 5 - 5")
+    public void t2(){
+        int rs = Calc.run("1 * 3 / 3 + 5 - 5");
+
+        assertThat(rs).isEqualTo(1);
+    }
 }
