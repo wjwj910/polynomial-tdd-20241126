@@ -29,4 +29,11 @@ public class CalcTest {
         int rs = Calc.run("((3 + 5) * 5 + -10)");
         assertThat(rs).isEqualTo(30);
     }
+
+    @Test
+    @DisplayName("((3 + 5) * 5 + -10) * 10 / 5")
+    public void t4() {
+        int rs = Calc.run("((3 + 5) * 5 + -10) * 10 / 5");
+        assertThat(rs).isEqualTo(60);
+    }
 }
